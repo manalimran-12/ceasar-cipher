@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesar Cipher</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="bgAnimation" id="bgAnimation">
+        <div class="backgroundAmim">
+
+        </div>
+    </div>
+    <div class="container">
+        <nav>
+            <h1><span>Caesar</span>Cipher</h1>
+            <ul>
+                <li>
+                    <a href="index.html">Home</a>
+                </li>
+                <li>
+                    <a href="Encoder.html">Encoder</a>
+                </li>
+                <li>
+                    <a href="#">Decoder</a>
+                </li>
+            </ul>
+        </nav>
+        <section class="content-container">
+            <div class="textBox">
+                <h1><span>Caesar</span> Cipher</h1>
+                <p>Decrypt your messages using the Caesar cipher <br>Let's Begin with your Message</p>
+                <div class="input-container">
+                    <input id="messageInput" class="input" placeholder="Enter your message" type="text">
+                    <input id="shiftInput" class="input" placeholder="Enter shift (default: 3)" type="number">
+                </div>
+                <button id="decodeBtn" class="homeBtn" style="--i:#00bfff;">Decode</button>
+
+            </div>
+            <div id="resultContainer" class="result-container">
+                <div id="result" class="result"></div>
+            </div>
+        </section>
+    </div>
+    <footer id="footer">
+        <p>All rights reserved to @Manal Imran || 2024</p>
+    </footer>
+
+    <script src="./script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("decodeBtn").addEventListener("click", function () {
+                handleDecryption();
+            });
+
+            function handleDecryption() {
+                var message = document.getElementById("messageInput").value;
+                var shift = parseInt(document.getElementById("shiftInput").value) || 3;
+
+                if (message.trim() === "") {
+                    alert("Please enter a message.");
+                    return;
+                }
+                var decryptedText = caesarCipher(message, shift, false);
+
+                var resultContainer = document.getElementById("resultContainer");
+                var resultElement = document.getElementById("result");
+
+                resultElement.innerHTML = `
+            <p>Encrypted Text: ${message}</p>
+            <p>Decrypted Text: ${decryptedText}</p>
+        `;
+                resultContainer.style.display = "block";
+            }
+
+            function caesarCipher(message, shift, isEncryptMode) {
+                var result = "";
+                var direction = isEncryptMode ? 1 : -1;
+
+                for (var i = 0; i < message.length; i++) {
+                    var charCode = message.charCodeAt(i);
+
+                    if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122)) {
+                        
+                        var base = charCode >= 65 && charCode <= 90 ? 65 : 97;
+                        result += String.fromCharCode((charCode - base - shift + 26) % 26 + base);
+                    } else {
+                        result += message[i];
+                    }
+                }
+                return result;
+            }
+        });
+
+
+
+    </script>
+
+</body>
+
+</html>
